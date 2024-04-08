@@ -19,21 +19,23 @@ class ListingItemsDataSource(
     private val scope = CoroutineScope(Dispatchers.Main + dataSourceJob)
     val loadStateLiveData: MutableLiveData<Pair<Status, String?>> = MutableLiveData()
 
-    companion object {
-        const val PAGE_SIZE = 15
-    }
-
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, ListingsModel.Page.ContentItems.Content>
     ) {
         scope.launch {
             loadStateLiveData.postValue(Status.LOADING to null)
-
-            val response = serviceClient.getListings(
-                keyword,
-                1
-            ) //get first page with keyword search
+            val response = if (keyword.isNullOrEmpty()) {
+                serviceClient.getListings(
+                    keyword,
+                    1
+                )
+            } else {
+                serviceClient.searchListings(
+                    keyword,
+                    1
+                )
+            }
             when (response.status) {
                 Status.ERROR -> loadStateLiveData.postValue(Status.ERROR to null)
                 Status.EMPTY -> loadStateLiveData.postValue(Status.EMPTY to null)
@@ -52,10 +54,17 @@ class ListingItemsDataSource(
         callback: LoadCallback<Int, ListingsModel.Page.ContentItems.Content>
     ) {
         scope.launch {
-            val response = serviceClient.getListings(
-                keyword,
-                params.key
-            ) //get next page with keyword search
+            val response = if (keyword.isNullOrEmpty()) {
+                serviceClient.getListings(
+                    keyword,
+                    params.key
+                )
+            } else {
+                serviceClient.searchListings(
+                    keyword,
+                    params.key
+                )
+            }
             response.data?.let {
                 callback.onResult(it.page.contentItems.content, params.key + 1)
             }

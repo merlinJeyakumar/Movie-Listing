@@ -12,7 +12,7 @@ data class ListingsModel(
     @Keep
     data class Page(
         @SerializedName("content-items")
-        val contentItems: ContentItems,
+        var contentItems: ContentItems,
         @SerializedName("page-num")
         val pageNum: String,
         @SerializedName("page-size")
@@ -25,7 +25,7 @@ data class ListingsModel(
         @Keep
         data class ContentItems(
             @SerializedName("content")
-            val content: List<Content>
+            var content: List<Content>
         ) {
             @Keep
             data class Content(

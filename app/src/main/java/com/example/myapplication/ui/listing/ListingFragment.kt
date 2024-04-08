@@ -67,18 +67,17 @@ class ListingFragment : Fragment() {
     }
 
     private fun initListener() = with(binding) {
-        /*binding.toolbar.menu.findItem(R.id.menuSearch)
-            .setOnActionExpandListener(object : OnActionExpandListener {
+        toolbar.menu.findItem(R.id.menuSearch)
+            .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
-                    toolbar.setNavigationIcon(null)
                     return true
                 }
 
                 override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
-                    toolbar.setNavigationIcon(R.drawable.ic_back)
+                    initiatePaginationProcess(null)
                     return true
                 }
-            })*/
+            })
         searchView.maxWidth = android.R.attr.width
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -86,6 +85,9 @@ class ListingFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrEmpty()) {
+                    initiatePaginationProcess(newText)
+                }
                 return true
             }
         })
