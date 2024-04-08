@@ -17,7 +17,7 @@ class ListingItemsDataSource(
 
     private val dataSourceJob = SupervisorJob()
     private val scope = CoroutineScope(Dispatchers.Main + dataSourceJob)
-    val loadStateLiveData: MutableLiveData<Pair<Status, String?>> = MutableLiveData()
+    val loadStateLiveData: MutableLiveData<Pair<Status, String?>> = MutableLiveData() //livedata used for status and title
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -25,7 +25,7 @@ class ListingItemsDataSource(
     ) {
         scope.launch {
             loadStateLiveData.postValue(Status.LOADING to null)
-            val response = if (keyword.isNullOrEmpty()) {
+            val response = if (keyword.isNullOrEmpty()) { //when search key is empty or null, all listings will be returned
                 serviceClient.getListings(
                     keyword,
                     1
@@ -34,7 +34,7 @@ class ListingItemsDataSource(
                 serviceClient.searchListings(
                     keyword,
                     1
-                )
+                ) //fetching first page
             }
             when (response.status) {
                 Status.ERROR -> loadStateLiveData.postValue(Status.ERROR to null)
@@ -64,7 +64,7 @@ class ListingItemsDataSource(
                     keyword,
                     params.key
                 )
-            }
+            } //to fetch a 2..n pages
             response.data?.let {
                 callback.onResult(it.page.contentItems.content, params.key + 1)
             }
@@ -75,6 +75,6 @@ class ListingItemsDataSource(
         params: LoadParams<Int>,
         callback: LoadCallback<Int, ListingsModel.Page.ContentItems.Content>
     ) {
-
+        //no-op
     }
 }

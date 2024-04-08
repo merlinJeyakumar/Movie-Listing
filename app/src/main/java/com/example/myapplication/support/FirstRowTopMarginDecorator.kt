@@ -15,9 +15,8 @@ class FirstRowTopMarginDecorator(private val marginTop: Int) : RecyclerView.Item
         val position = parent.getChildAdapterPosition(view)
         val layoutManager = parent.layoutManager as? GridLayoutManager
 
-        // Check if it's the first row
         if (layoutManager != null && layoutManager.spanCount > 0 && position < layoutManager.spanCount) {
             outRect.top = marginTop
-        }
+        } // Check if it's the first row
     }
 }

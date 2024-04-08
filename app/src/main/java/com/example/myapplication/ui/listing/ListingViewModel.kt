@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.listing
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.switchMap
@@ -20,16 +19,17 @@ class ListingViewModel @Inject constructor(private val serviceClient: IListingsA
     ViewModel() {
 
     fun initListingsFactory(keyword: String?): Pair<LiveData<Pair<Status, String?>>, LiveData<PagedList<ListingsModel.Page.ContentItems.Content>>> {
-        val config = PagedList.Config.Builder().setEnablePlaceholders(true)
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(true)
             .setInitialLoadSizeHint(10)
             .setPageSize(10)
-            .setPrefetchDistance(7)
+            .setPrefetchDistance(10)
             .build() //initializing page configuration with minimal settings
 
         val listingsDataSourceFactory = ListingItemsDataSourceFactory(
             serviceClient,
             keyword
-        ) //passing rest service and searching query
+        ) //passing searching query
 
         val executor = Executors.newFixedThreadPool(5)
 
@@ -38,7 +38,7 @@ class ListingViewModel @Inject constructor(private val serviceClient: IListingsA
             listingsDataSourceFactory, config
         ).setFetchExecutor(executor).build().map {
             it
-        }
+        } //returning with state update and result updatable live-data
     }
 
 }

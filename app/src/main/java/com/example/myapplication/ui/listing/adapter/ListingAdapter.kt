@@ -19,8 +19,6 @@ class ListingAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            holder: ListingViewHolder,
-            position: Int,
             content: Content
         ) = with(binding) {
             contentModel = content
@@ -36,7 +34,7 @@ class ListingAdapter :
 
     /* Gets current `Content` and uses it to bind view. */
     override fun onBindViewHolder(holder: ListingViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(holder, position, it) }
+        getItem(position)?.let { holder.bind(it) }
     }
 }
 

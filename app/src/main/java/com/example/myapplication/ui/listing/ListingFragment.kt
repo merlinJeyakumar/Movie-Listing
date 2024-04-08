@@ -50,9 +50,9 @@ class ListingFragment : Fragment() {
             if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 3
             } else {
-                6
+                7
             }
-        )
+        ) //setting up gridlayout span count with orientation specification
         binding.listingRecyclerView.adapter = listingsAdapter //setting adapter to recyclerview
         listingRecyclerView.addItemDecoration(
             FirstRowTopMarginDecorator(
@@ -62,23 +62,11 @@ class ListingFragment : Fragment() {
                     resources.displayMetrics
                 ).toInt() + resources.getDimension(R.dimen.dimen_36px).toInt()
             )
-        )
+        ) //adding top margin to recyclerview
         status = Status.EMPTY //default state of ui
     }
 
     private fun initListener() = with(binding) {
-        toolbar.menu.findItem(R.id.menuSearch)
-            .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                override fun onMenuItemActionExpand(p0: MenuItem): Boolean {
-                    return true
-                }
-
-                override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
-                    initiatePaginationProcess(null)
-                    return true
-                }
-            })
-        searchView.maxWidth = android.R.attr.width
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -86,18 +74,24 @@ class ListingFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrEmpty()) {
-                    initiatePaginationProcess(newText)
+                    initiatePaginationProcess(newText) //search and paginate with keyword
                 }
                 return true
             }
         })
 
+        toolbar.setNavigationOnClickListener {
+            requireActivity().finish()
+        }
+
         requireActivity().onBackPressedDispatcher.addCallback { //handle search view backpress
             if (menuSearchItemView.isActionViewExpanded) {
-                menuSearchItemView.collapseActionView()
+                menuSearchItemView.collapseActionView()  //collapse with hardware back-press
+            } else {
+                requireActivity().finish()
             }
         }
-        initiatePaginationProcess(null)
+        initiatePaginationProcess(null) //initiate pagination and fetch first-page
     }
 
     private fun initiatePaginationProcess(
@@ -112,7 +106,7 @@ class ListingFragment : Fragment() {
                 }//listening ui update
                 pagedLiveData.observe(viewLifecycleOwner) {
                     listingsAdapter.submitList(it) //populating pagination items
-                }
+                } //pagination data observed
             }
     }
 
@@ -123,7 +117,7 @@ class ListingFragment : Fragment() {
         } //reusing adapter from recyclerview or initializing adapter
 
     private val menuSearchItemView: MenuItem
-        get() = binding.toolbar.menu.findItem(R.id.menuSearch)
+        get() = binding.toolbar.menu.findItem(R.id.menuSearch) //get item view of search in efficient way
 
     private val searchView: SearchView
         get() = ((binding.toolbar.menu.findItem(R.id.menuSearch).actionView) as SearchView)
@@ -135,6 +129,6 @@ class ListingFragment : Fragment() {
             fileName?.let {
                 imageView.context.loadImageFromAssets(it, imageView)
             }
-        }
+        } //binding adapter to load image into imageview
     }
 }

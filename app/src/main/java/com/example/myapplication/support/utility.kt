@@ -11,7 +11,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 
 
-fun Context.readJsonFromAssets(filePath: String): String? {
+fun Context.readJsonFromAssets(filePath: String): String? { //read the json files from assets with filename
     try {
         val source = assets.open(filePath).source().buffer()
         return source.readByteString().string(Charset.forName("utf-8"))
@@ -22,7 +22,10 @@ fun Context.readJsonFromAssets(filePath: String): String? {
     return null
 }
 
-fun Context.loadImageFromAssets(fileName: String, imageView: ImageView): Boolean {
+fun Context.loadImageFromAssets(
+    fileName: String,
+    imageView: ImageView
+): Boolean { //load image with glide in the imageview
     return try {
         val inputStream = assets.open(fileName)
         val bitmap = BitmapFactory.decodeStream(inputStream)

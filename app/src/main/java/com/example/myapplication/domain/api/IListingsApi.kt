@@ -8,10 +8,10 @@ interface IListingsApi {
     suspend fun searchListings(
         keyword: String?,
         page: Int
-    ): Resource<ListingsModel>
+    ): Resource<ListingsModel> //retrieve the listings with search keyword
 
     suspend fun getListings(
         keyword: String?,
         page: Int
-    ): Resource<ListingsModel>
+    ): Resource<ListingsModel> //retrieve the listings
 }
