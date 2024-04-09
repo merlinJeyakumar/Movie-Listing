@@ -20,5 +20,8 @@
 - Used Binding adapter to load image with use of glide `BindingLayoutUtils.loadAsset`
 
 ## Preview
-<video src="https://github.com/merlinJeyakumar/Movie-Listing/assets/32739139/15a337af-b524-4af3-8512-0e735bc886a3"></video>
+<video src="https://github.com/merlinJeyakumar/Movie-Listing/assets/32739139/310cecdb-e0c4-4bca-b73a-c3f5fb631f5f"></video>
+
+## APK
+[Signed APK](https://github.com/merlinJeyakumar/github-browse-user/tree/master)
 
