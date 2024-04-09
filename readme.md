@@ -18,3 +18,7 @@
 - End point stored securely under `Build.gradle` BuildConfig properties
 - Pagination used to paginate a data, `ListingItemsDataSource` fetches a json file from assets
 - Used Binding adapter to load image with use of glide `BindingLayoutUtils.loadAsset`
+
+## Preview
+<video src="https://github.com/merlinJeyakumar/Movie-Listing/assets/32739139/15a337af-b524-4af3-8512-0e735bc886a3"></video>
+
