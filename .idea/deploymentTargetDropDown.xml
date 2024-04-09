@@ -2,7 +2,22 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="ListingFragmentTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="testAdapter()">
+        <State />
+      </entry>
+      <entry key="testAdapter() (1)">
+        <State />
+      </entry>
+      <entry key="testFragmentLaunch()">
+        <State />
+      </entry>
+      <entry key="testPagination()">
         <State />
       </entry>
     </value>
